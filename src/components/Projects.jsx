@@ -56,21 +56,12 @@ const ProjectGallery = ({ images, title, portraitStage = false }) => {
           <div className={`absolute bottom-3 left-3 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur-md ${portraitStage ? 'text-cyan-400 bg-black/40' : 'border border-white/15 bg-black/65 text-white'}`} aria-live="polite">
             {activeIndex + 1} / {images.length}
           </div>
-          {portraitStage ? (
-            <>
-              <button type="button" onClick={showPrevious} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 rounded-full p-3 text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white" aria-label={`Show previous ${title} screenshot`}>
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
-              </button>
-              <button type="button" onClick={showNext} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 rounded-full p-3 text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white" aria-label={`Show next ${title} screenshot`}>
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
-              </button>
-            </>
-          ) : (
-            <button type="button" onClick={showNext} className="absolute bottom-3 right-3 flex items-center gap-2 rounded-full border border-white/20 bg-black/70 px-4 py-2 text-xs font-black uppercase tracking-wider text-white backdrop-blur-md transition-all hover:bg-[#ff2a2a] hover:border-[#ff2a2a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" aria-label={`Show next ${title} screenshot`}>
-              Next
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
-            </button>
-          )}
+          <button type="button" onClick={showPrevious} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-3 text-white backdrop-blur-sm transition-colors hover:bg-[#ff2a2a] focus-visible:outline-2 focus-visible:outline-white" aria-label={`Show previous ${title} screenshot`}>
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <button type="button" onClick={showNext} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-3 text-white backdrop-blur-sm transition-colors hover:bg-[#ff2a2a] focus-visible:outline-2 focus-visible:outline-white" aria-label={`Show next ${title} screenshot`}>
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+          </button>
         </>
       )}
     </div>

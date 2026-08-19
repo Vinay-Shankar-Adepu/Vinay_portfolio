@@ -159,7 +159,7 @@ const Contact = () => {
                   Your message will be sent directly to my inbox. I typically respond within 24-48 hours.
                 </p>
                 {import.meta.env.VITE_TURNSTILE_SITE_KEY && (
-                  <div className="cf-turnstile" data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY} data-theme="light" data-action="portfolio_contact" />
+                  <div className="cf-turnstile w-full max-w-full" data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY} data-theme="light" data-size="flexible" data-action="portfolio_contact" />
                 )}
                 {status === 'error' && <p role="alert" className="font-bold text-white">{errorMessage}</p>}
                 {status === 'success' && <p role="status" className="font-bold text-white">Thanks! Your message has been delivered.</p>}

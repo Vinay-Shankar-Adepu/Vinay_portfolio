@@ -5,7 +5,7 @@ const eventImages = Object.entries(
   import.meta.glob('../assets/events/aws-ai-newyork/*.{jpeg,jpg,png}', { eager: true, query: '?url', import: 'default' }),
 ).sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true })).map(([, url]) => url);
 
-const EventGallery = ({ images, title }) => {
+const EventGallery = ({ images, title, className = 'h-[250px]' }) => {
   const galleryRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isViewing, setIsViewing] = useState(false);
@@ -28,14 +28,14 @@ const EventGallery = ({ images, title }) => {
   const next = () => setActiveIndex((current) => (current + 1) % images.length);
 
   return (
-    <div ref={galleryRef} data-aos="fade-left" className="relative h-[250px] overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-2xl">
+    <div ref={galleryRef} data-aos="fade-left" className={`relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-2xl ${className}`}>
       <img src={images[activeIndex]} alt={`${title} event photo ${activeIndex + 1} of ${images.length}`} className="h-full w-full object-cover" loading="lazy" />
       <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent" />
       <span className="absolute bottom-4 left-5 text-xs font-black tracking-widest text-white" aria-live="polite">{activeIndex + 1} / {images.length}</span>
-      <button type="button" onClick={previous} aria-label="Previous event photo" className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-2 text-white backdrop-blur-sm transition hover:bg-[#ff2a2a]">
+      <button type="button" onClick={previous} aria-label="Previous event photo" className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-3 text-white backdrop-blur-sm transition hover:bg-[#ff2a2a] focus-visible:outline-2 focus-visible:outline-white">
         <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
       </button>
-      <button type="button" onClick={next} aria-label="Next event photo" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-2 text-white backdrop-blur-sm transition hover:bg-[#ff2a2a]">
+      <button type="button" onClick={next} aria-label="Next event photo" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-3 text-white backdrop-blur-sm transition hover:bg-[#ff2a2a] focus-visible:outline-2 focus-visible:outline-white">
         <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
       </button>
     </div>
@@ -46,17 +46,17 @@ const LeadershipItem = ({ item }) => {
   const hasEventPhotos = item.title.includes('AWS Summit') && eventImages.length > 0;
 
   return (
-    <div className="relative flex flex-col md:flex-row items-center justify-between mb-12 md:mb-16 w-full group">
+    <div className="relative flex flex-col lg:flex-row items-center justify-between mb-12 lg:mb-16 w-full group">
       {/* Timeline line dot */}
-      <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-[#ff2a2a] rounded-full border-4 border-black z-30 shadow-[0_0_15px_#ff2a2a] group-hover:scale-125 transition-transform duration-300" />
+      <div className="absolute left-4 lg:left-1/2 -translate-x-1/2 w-4 h-4 bg-[#ff2a2a] rounded-full border-4 border-black z-30 shadow-[0_0_15px_#ff2a2a] group-hover:scale-125 transition-transform duration-300" />
 
       {/* Card Content Side */}
       <div 
         data-aos="fade-right"
-        className="w-full md:w-[45%] pl-12 md:pl-0 md:text-right md:order-1"
+        className="w-full lg:w-[45%] pl-12 lg:pl-0 lg:text-right lg:order-1"
       >
         <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:border-red-500/30 hover:shadow-[0_15px_35px_rgba(255,42,42,0.1)] transition-all duration-500">
-          <div className="flex flex-wrap gap-2 items-center mb-3 md:justify-end">
+          <div className="flex flex-wrap gap-2 items-center mb-3 lg:justify-end">
             <span className="bg-[#ff2a2a]/20 text-[#ff2a2a] text-[10px] font-black tracking-widest uppercase py-1 px-3 rounded-full border border-[#ff2a2a]/30">
               {item.badge}
             </span>
@@ -72,12 +72,10 @@ const LeadershipItem = ({ item }) => {
             {item.description}
           </p>
         </div>
-        {hasEventPhotos && <div className="mt-4 md:hidden"><EventGallery images={eventImages} title={item.title} /></div>}
+        {hasEventPhotos && <div className="mt-4 lg:hidden"><EventGallery images={eventImages} title={item.title} /></div>}
       </div>
 
-      <div className="hidden md:block w-[45%] order-2">
-        {hasEventPhotos && <EventGallery images={eventImages} title={item.title} />}
-      </div>
+      <div className="hidden lg:block w-[45%] order-2" />
     </div>
   );
 };
@@ -111,7 +109,7 @@ const Leadership = () => {
         {/* Timeline container */}
         <div className="relative w-full">
           {/* Vertical central line */}
-          <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-2 bottom-2 w-[2px] bg-gradient-to-b from-[#ff2a2a] via-red-500/50 to-white/10" />
+          <div className="absolute left-4 lg:left-1/2 -translate-x-1/2 top-2 bottom-2 w-[2px] bg-gradient-to-b from-[#ff2a2a] via-red-500/50 to-white/10" />
 
           {/* Timeline Items */}
           <div className="w-full">
@@ -119,6 +117,11 @@ const Leadership = () => {
               <LeadershipItem key={item.title} item={item} />
             ))}
           </div>
+          {eventImages.length > 0 && (
+            <div className="absolute right-0 top-0 bottom-16 hidden w-[45%] lg:block">
+              <EventGallery images={eventImages} title="AWS Summit New York 2026" className="h-full" />
+            </div>
+          )}
         </div>
 
       </div>

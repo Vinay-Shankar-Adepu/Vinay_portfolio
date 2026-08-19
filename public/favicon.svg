@@ -1,10 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-  <defs>
-    <linearGradient id="yg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff2a2a"/>
-      <stop offset="100%" stop-color="#cc0000"/>
-    </linearGradient>
-  </defs>
-  <rect width="48" height="48" rx="12" fill="url(#yg)"/>
-  <text x="24" y="35" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="32" fill="white">Y</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABIUlEQVR4AeyUPQqDQBCFVwmmT5XEi3gIbbTwJFYexTPYqIfxAiY2aQKx0IBxxBUZXPcngs0Ghp0ZZ+d9vKAmGX4P1+2PiEGamCAMyREB2qMDR4hTTQ2gHdAOcB245TlhBX2V4FybOdk2PNoMLsDT8wgE3oJ7UEPQOci/VUVL5skFoDfrMKQp9wRx7tA0IAzQN810Zd9DGADLwn++1quDALc3aykAEWv7tt0UxA+lAPDlpQtnxyF91+ERbi0NwHLhEsek9n2uIB6QBsALDMvCLalaCaAty1nkmqbjh4rlzDzISJQAXlHEWCffVgLAMu8kwS3hWhlgafkny4QF8aAyACwCCAjIVeMvAFXR5T0NoB3QDhzvwL0ojOV7uXe+tQ+0fwAAAP//l29rEQAAAAZJREFUAwAci5rn9A1iYwAAAABJRU5ErkJggg==" width="32" height="32"/></svg>

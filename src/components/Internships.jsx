@@ -4,10 +4,10 @@ const InternshipCard = ({ intern, index }) => (
   <div 
     data-aos="fade-up"
     data-aos-delay={index * 150}
-    className="w-full max-w-xl bg-black/20 backdrop-blur-md border border-white/10 rounded-3xl p-8 hover:scale-[1.02] hover:bg-black/35 hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 flex flex-col justify-between"
+    className="w-full max-w-xl bg-black/20 backdrop-blur-md border border-white/10 rounded-3xl p-6 sm:p-8 hover:scale-[1.02] hover:bg-black/35 hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 flex flex-col justify-between"
   >
     <div>
-      <div className="flex justify-between items-start mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-6">
         <span className="text-white/40 text-xs font-mono font-bold tracking-widest uppercase">
           {intern.duration}
         </span>

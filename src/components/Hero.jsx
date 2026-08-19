@@ -8,6 +8,7 @@ import { heroContent, socialLinks } from '../data/portfolioData';
 const Hero = () => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasEnded, setHasEnded] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -22,8 +23,9 @@ const Hero = () => {
     e.stopPropagation();
     if (videoRef.current) {
       if (videoRef.current.paused) {
-        if (videoRef.current.ended) videoRef.current.currentTime = 0;
+        if (videoRef.current.ended || hasEnded) videoRef.current.currentTime = 0;
         videoRef.current.play();
+        setHasEnded(false);
         setIsPlaying(true);
       } else {
         videoRef.current.pause();
@@ -33,14 +35,17 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative w-full h-screen overflow-hidden bg-black">
+    <section id="home" className="relative w-full h-[100svh] min-h-[620px] overflow-hidden bg-black">
       {/* Background Video */}
       <video
         ref={videoRef}
         poster={heroPoster}
         muted={false}
         playsInline
-        onEnded={() => setIsPlaying(false)}
+        onEnded={() => {
+          setIsPlaying(false);
+          setHasEnded(true);
+        }}
         className="absolute top-0 left-0 w-full h-full object-cover z-0"
       >
         <source src={heroVideo} type="video/mp4" />
@@ -160,13 +165,15 @@ const Hero = () => {
         </div>
 
         {/* Right Side: Play Video Button */}
-        <div 
+        <button
+          type="button"
           data-aos="zoom-in"
-          data-aos-delay="600"
-          className="mt-8 md:mt-0 flex flex-row md:flex-col items-center gap-2 md:gap-3 cursor-pointer group self-start md:self-auto"
+          data-aos-delay="400"
+          className="mt-8 md:mt-0 flex flex-row md:flex-col items-center gap-2 md:gap-3 cursor-pointer group self-start md:self-auto bg-transparent border-0 p-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           onClick={toggleVideo}
+          aria-label={isPlaying ? "Pause reel" : hasEnded ? "Replay reel" : "Play reel"}
         >
-          <div className="w-12 h-12 md:w-20 md:h-20 rounded-full border border-white/30 bg-black/20 backdrop-blur-md flex justify-center items-center group-hover:scale-110 group-hover:bg-[#ff2a2a] transition-all duration-500 shadow-[0_0_30px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_40px_rgba(255,42,42,0.6)]">
+          <div className="w-12 h-12 md:w-20 md:h-20 rounded-full border border-white/30 bg-black flex justify-center items-center group-hover:scale-110 group-hover:bg-[#ff2a2a] transition-all duration-500 shadow-[0_0_30px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_40px_rgba(255,42,42,0.6)]">
             {!isPlaying ? (
               // Play Icon
               <svg className="w-5 h-5 md:w-8 md:h-8 text-white ml-0.5 md:ml-1" fill="currentColor" viewBox="0 0 24 24">
@@ -180,9 +187,9 @@ const Hero = () => {
             )}
           </div>
           <span className="text-white text-[10px] md:text-xs font-bold tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity">
-            {!isPlaying ? "Play Reel" : "Pause"}
+            {isPlaying ? "Pause" : hasEnded ? "Replay Reel" : "Play Reel"}
           </span>
-        </div>
+        </button>
       </div>
 
       {/* Scroll Indicator */}

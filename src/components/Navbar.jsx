@@ -40,7 +40,7 @@ const Navbar = () => {
         </div>
 
         {/* Center: Desktop Menu Links */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden lg:flex space-x-8">
           {navLinks.map((link) => (
             <a 
               key={link} 
@@ -55,7 +55,7 @@ const Navbar = () => {
         </div>
 
         {/* Right Side: CTA Button */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           <a
             href={personalInfo.resumeUrl}
             download
@@ -72,10 +72,14 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Hamburger Menu Icon */}
-        <div className="md:hidden flex items-center">
+        <div className="lg:hidden flex items-center">
           <button 
+            type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="text-white focus:outline-none p-2"
+            className="text-white rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white p-3"
+            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isOpen ? (
@@ -90,8 +94,9 @@ const Navbar = () => {
 
       {/* Mobile Slide-Down Menu */}
       <div 
-        className={`md:hidden absolute top-full left-0 w-full transition-all duration-300 overflow-hidden ${
-          isOpen ? 'max-h-96 py-4 opacity-100 bg-[#ff2a2a] shadow-2xl' : 'max-h-0 opacity-0 bg-transparent'
+        id="mobile-navigation"
+        className={`lg:hidden absolute top-full left-0 w-full transition-all duration-300 overflow-x-hidden overflow-y-auto ${
+          isOpen ? 'max-h-[calc(100dvh-5rem)] py-4 opacity-100 bg-[#ff2a2a] shadow-2xl' : 'max-h-0 opacity-0 bg-transparent'
         }`}
       >
         <div className="flex flex-col px-6 space-y-4">

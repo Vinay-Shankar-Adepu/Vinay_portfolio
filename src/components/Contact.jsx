@@ -7,6 +7,8 @@ const Contact = () => {
   const formRef = useRef(null);
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
   const [errorMessage, setErrorMessage] = useState('');
+  const [permissionError, setPermissionError] = useState(false);
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -19,17 +21,39 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status === 'sending') return;
+    const formData = new FormData(formRef.current);
+    const hasPermission = formData.get('permission') === 'on';
+    const turnstileToken = formData.get('cf-turnstile-response');
+
+    if (!hasPermission) {
+      setPermissionError(true);
+      document.getElementById('permission')?.focus();
+      return;
+    }
+
+    if (!turnstileSiteKey) {
+      setStatus('error');
+      setErrorMessage('Contact verification is temporarily unavailable. Please use the email link below.');
+      return;
+    }
+
+    if (!turnstileToken) {
+      setStatus('error');
+      setErrorMessage('Please complete the human verification before sending your message.');
+      return;
+    }
+
+    setPermissionError(false);
     setStatus('sending');
     setErrorMessage('');
-    const formData = new FormData(formRef.current);
     const payload = {
       firstName: formData.get('first_name'),
       lastName: formData.get('last_name'),
       email: formData.get('user_email'),
       message: formData.get('message'),
-      permission: formData.get('permission') === 'on',
+      permission: hasPermission,
       website: formData.get('website'),
-      turnstileToken: formData.get('cf-turnstile-response'),
+      turnstileToken,
     };
 
     try {
@@ -46,6 +70,7 @@ const Contact = () => {
     } catch (error) {
       setErrorMessage(error.message);
       setStatus('error');
+      if (error.message.toLowerCase().includes('verification')) window.turnstile?.reset();
     }
   };
 
@@ -139,18 +164,30 @@ const Contact = () => {
             {/* Bottom Section */}
             <div className="flex flex-col md:flex-row gap-12 mt-4">
               {/* Left text */}
-              <div className="flex-1 flex items-start gap-4 text-sm font-medium text-white/90">
-                <input 
-                  type="checkbox" 
-                  id="permission" 
-                  name="permission"
-                  required
-                  className="mt-1 w-4 h-4 rounded-sm border-white/40 bg-transparent text-white focus:ring-white focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer" 
-                  style={{ accentColor: "white" }}
-                />
-                <label htmlFor="permission" className="cursor-pointer max-w-[280px] leading-snug">
-                  I give permission to contact me at this email address.
+              <div className="flex-1 flex flex-col items-start gap-3 text-sm font-medium text-white/90">
+                <label htmlFor="permission" className="group flex cursor-pointer items-start gap-4 leading-snug">
+                  <input
+                    type="checkbox"
+                    id="permission"
+                    name="permission"
+                    onChange={(event) => event.target.checked && setPermissionError(false)}
+                    className="permission-checkbox peer sr-only"
+                    aria-describedby={permissionError ? 'permission-error' : undefined}
+                    aria-invalid={permissionError}
+                  />
+                  <span className={`permission-control mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border-2 transition-all duration-300 peer-checked:border-black peer-checked:bg-black peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-black ${permissionError ? 'border-black bg-white shadow-[0_0_0_4px_rgba(0,0,0,0.12)]' : 'border-white/70 bg-transparent group-hover:border-white'}`} aria-hidden="true">
+                    <svg className="h-4 w-4 scale-0 text-white transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  <span className="max-w-[280px]">I give permission to contact me at this email address.</span>
                 </label>
+                {permissionError && (
+                  <div id="permission-error" role="alert" className="flex max-w-sm items-start gap-3 rounded-xl border border-white/15 bg-[#111111] px-4 py-3 text-xs font-bold leading-relaxed text-white shadow-[0_12px_30px_rgba(0,0,0,0.3)]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ff2a2a] text-[12px] font-black" aria-hidden="true">!</span>
+                    Please confirm that I may contact you at the email address provided.
+                  </div>
+                )}
               </div>
 
               {/* Right text & button */}
@@ -158,11 +195,21 @@ const Contact = () => {
                 <p className="leading-relaxed max-w-[400px]">
                   Your message will be sent directly to my inbox. I typically respond within 24-48 hours.
                 </p>
-                {import.meta.env.VITE_TURNSTILE_SITE_KEY && (
-                  <div className="cf-turnstile w-full max-w-full" data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY} data-theme="light" data-size="flexible" data-action="portfolio_contact" />
+                {turnstileSiteKey && (
+                  <div className="cf-turnstile w-full max-w-full" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" data-action="portfolio_contact" />
                 )}
-                {status === 'error' && <p role="alert" className="font-bold text-white">{errorMessage}</p>}
-                {status === 'success' && <p role="status" className="font-bold text-white">Thanks! Your message has been delivered.</p>}
+                {status === 'error' && (
+                  <div role="alert" className="flex max-w-lg items-start gap-3 rounded-xl border border-white/15 bg-[#111111] px-4 py-3 text-sm font-bold leading-relaxed text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ff2a2a] text-xs font-black" aria-hidden="true">!</span>
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+                {status === 'success' && (
+                  <div role="status" className="flex max-w-lg items-start gap-3 rounded-xl border border-white/20 bg-black px-4 py-3 text-sm font-bold leading-relaxed text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-black" aria-hidden="true">✓</span>
+                    <span>Thanks! Your message has been delivered.</span>
+                  </div>
+                )}
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
                   <p className="max-w-[250px] leading-relaxed">
                     For urgent inquiries, reach me at <a href={`mailto:${personalInfo.emails.primary}`} className="underline hover:text-white transition-colors">{personalInfo.emails.primary}</a>

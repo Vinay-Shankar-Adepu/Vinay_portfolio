@@ -27,6 +27,10 @@ section[id] {
   scroll-margin-top: 5rem;
 }
 
+.permission-checkbox:checked + .permission-control svg {
+  transform: scale(1);
+}
+
 [data-aos="drop-bounce"] {
   opacity: 0;
 }

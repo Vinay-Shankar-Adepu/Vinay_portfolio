@@ -27,7 +27,7 @@ export const aboutContent = {
 };
 
 export const skillsContent = {
-  badge: "My Process", heading: "Here's how I turn ideas into dependable products",
+  badge: "03 / Product process", heading: "Here's how I turn ideas into dependable products",
   description: "A practical engineering process shaped by team leadership, Agile delivery, and production-focused development.",
   cards: [
     { number: "01", title: "Discover", text: "Clarify user needs, business goals, technical constraints, and measurable outcomes." },

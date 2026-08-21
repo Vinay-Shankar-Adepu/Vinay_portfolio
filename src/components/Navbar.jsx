@@ -22,20 +22,20 @@ const Navbar = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-3 left-1/2 -translate-x-1/2 w-[calc(100%_-_1.5rem)] max-w-6xl z-50 rounded-2xl border transition-all duration-300 ${
         isOpen 
-          ? 'bg-[#ff2a2a] py-4'
+          ? 'bg-[#0e141d] border-[#d9ff43]/30 py-3'
           : isScrolled 
-            ? 'bg-transparent py-4' 
-            : 'bg-transparent py-6'
+            ? 'bg-[#070a0f]/90 border-white/10 py-3 shadow-[0_12px_40px_rgba(0,0,0,.35)] backdrop-blur-xl'
+            : 'bg-black/25 border-white/10 py-3 backdrop-blur-md'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+      <div className="mx-auto px-4 sm:px-6 flex justify-between items-center">
         
         {/* Left Side: Logo/Name */}
         <div className="flex items-center">
-          <a href="#home" className="text-white text-2xl font-black tracking-tight whitespace-nowrap">
-            {personalInfo.brandName}<span className="text-red-500">.</span>
+          <a href="#home" className="text-white text-lg sm:text-xl font-bold tracking-[-0.04em] whitespace-nowrap">
+            {personalInfo.firstName}<span className="text-[#d9ff43]">/dev</span>
           </a>
         </div>
 
@@ -49,7 +49,7 @@ const Navbar = () => {
             >
               {link}
               {/* Smooth hover underline */}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#d9ff43] transition-all duration-300 group-hover:w-full"></span>
             </a>
           ))}
         </div>
@@ -59,13 +59,13 @@ const Navbar = () => {
           <a
             href={personalInfo.resumeUrl}
             download
-            className="px-5 py-2.5 rounded-full border border-white/30 text-white font-semibold hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-md"
+            className="px-5 py-2.5 rounded-xl border border-white/20 text-white font-semibold hover:border-[#d9ff43] hover:text-[#d9ff43] transition-all duration-300"
           >
             Resume
           </a>
           <a 
             href="#contact"
-            className="px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-white font-semibold hover:bg-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all duration-300 backdrop-blur-md"
+            className="px-6 py-2.5 rounded-xl bg-[#d9ff43] border border-[#d9ff43] text-[#070a0f] font-bold hover:bg-white hover:border-white transition-all duration-300"
           >
             Hire Me
           </a>
@@ -96,7 +96,7 @@ const Navbar = () => {
       <div 
         id="mobile-navigation"
         className={`lg:hidden absolute top-full left-0 w-full transition-all duration-300 overflow-x-hidden overflow-y-auto ${
-          isOpen ? 'max-h-[calc(100dvh-5rem)] py-4 opacity-100 bg-[#ff2a2a] shadow-2xl' : 'max-h-0 opacity-0 bg-transparent'
+          isOpen ? 'max-h-[calc(100dvh-5rem)] py-4 opacity-100 bg-[#0e141d] shadow-2xl' : 'max-h-0 opacity-0 bg-transparent'
         }`}
       >
         <div className="flex flex-col px-6 space-y-4">
@@ -115,14 +115,14 @@ const Navbar = () => {
                href={personalInfo.resumeUrl}
                download
                onClick={() => setIsOpen(false)}
-               className="inline-block px-6 py-3 rounded-full border border-white text-white font-black hover:bg-white hover:text-[#ff2a2a] transition-colors w-full text-center"
+               className="inline-block px-6 py-3 rounded-xl border border-white/30 text-white font-black hover:border-[#d9ff43] hover:text-[#d9ff43] transition-colors w-full text-center"
              >
                Download Resume
              </a>
              <a 
                href="#contact"
                onClick={() => setIsOpen(false)} 
-               className="inline-block px-6 py-3 rounded-full bg-white text-[#ff2a2a] font-black hover:bg-black hover:text-white transition-colors w-full text-center shadow-lg"
+               className="inline-block px-6 py-3 rounded-xl bg-[#d9ff43] text-[#070a0f] font-black hover:bg-white transition-colors w-full text-center shadow-lg"
              >
                Hire Me
              </a>

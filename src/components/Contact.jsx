@@ -7,6 +7,8 @@ const Contact = () => {
   const formRef = useRef(null);
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
   const [errorMessage, setErrorMessage] = useState('');
+  const [permissionError, setPermissionError] = useState(false);
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -19,17 +21,39 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status === 'sending') return;
+    const formData = new FormData(formRef.current);
+    const hasPermission = formData.get('permission') === 'on';
+    const turnstileToken = formData.get('cf-turnstile-response');
+
+    if (!hasPermission) {
+      setPermissionError(true);
+      document.getElementById('permission')?.focus();
+      return;
+    }
+
+    if (!turnstileSiteKey) {
+      setStatus('error');
+      setErrorMessage('Contact verification is temporarily unavailable. Please use the email link below.');
+      return;
+    }
+
+    if (!turnstileToken) {
+      setStatus('error');
+      setErrorMessage('Please complete the human verification before sending your message.');
+      return;
+    }
+
+    setPermissionError(false);
     setStatus('sending');
     setErrorMessage('');
-    const formData = new FormData(formRef.current);
     const payload = {
       firstName: formData.get('first_name'),
       lastName: formData.get('last_name'),
       email: formData.get('user_email'),
       message: formData.get('message'),
-      permission: formData.get('permission') === 'on',
+      permission: hasPermission,
       website: formData.get('website'),
-      turnstileToken: formData.get('cf-turnstile-response'),
+      turnstileToken,
     };
 
     try {
@@ -46,11 +70,12 @@ const Contact = () => {
     } catch (error) {
       setErrorMessage(error.message);
       setStatus('error');
+      if (error.message.toLowerCase().includes('verification')) window.turnstile?.reset();
     }
   };
 
   return (
-    <section ref={ref} id="contact" className="bg-[#0a0a0a] w-full min-h-screen relative overflow-hidden flex items-end pt-32 pb-0 md:pb-0 border-t border-gray-900">
+    <section ref={ref} id="contact" className="bg-[#070a0f] w-full min-h-screen relative overflow-hidden flex items-end pt-32 pb-0 md:pb-0 border-t border-white/10">
       {/* Huge Background Text */}
       <motion.div 
         style={{ y }}
@@ -60,7 +85,7 @@ const Contact = () => {
           className="text-[25vw] leading-[0.75] font-black text-white uppercase tracking-tighter select-none scale-y-[1.6] origin-top"
           style={{ fontFamily: "'Impact', 'Arial Black', sans-serif" }}
         >
-          Contact
+          Let’s talk
         </h1>
       </motion.div>
 
@@ -68,7 +93,7 @@ const Contact = () => {
       <div className="relative z-10 w-full flex justify-end items-end">
         <div 
           data-aos="fade-up"
-          className="bg-[#ff2a2a] w-full md:w-[85%] lg:w-[75%] p-8 md:p-16 text-white flex flex-col justify-between"
+          className="bg-[#536dfe] w-full md:w-[88%] lg:w-[78%] rounded-tl-[2.5rem] p-8 md:p-16 text-white flex flex-col justify-between border-l border-t border-white/20"
         >
           <div className="flex flex-col sm:flex-row justify-between items-start gap-8 mb-12">
             <div className="text-xs font-bold tracking-[0.2em] uppercase opacity-90">
@@ -79,7 +104,7 @@ const Contact = () => {
               href={socialLinks.instagram} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="flex items-center gap-2 text-xs font-black uppercase tracking-wider bg-white/10 hover:bg-white hover:text-red-600 border border-white/20 px-4 py-2 rounded-full transition-all duration-300"
+              className="flex items-center gap-2 text-xs font-black uppercase tracking-wider bg-white/10 hover:bg-[#d9ff43] hover:text-[#070a0f] border border-white/20 px-4 py-2 rounded-full transition-all duration-300"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
               DM on Instagram
@@ -139,18 +164,30 @@ const Contact = () => {
             {/* Bottom Section */}
             <div className="flex flex-col md:flex-row gap-12 mt-4">
               {/* Left text */}
-              <div className="flex-1 flex items-start gap-4 text-sm font-medium text-white/90">
-                <input 
-                  type="checkbox" 
-                  id="permission" 
-                  name="permission"
-                  required
-                  className="mt-1 w-4 h-4 rounded-sm border-white/40 bg-transparent text-white focus:ring-white focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer" 
-                  style={{ accentColor: "white" }}
-                />
-                <label htmlFor="permission" className="cursor-pointer max-w-[280px] leading-snug">
-                  I give permission to contact me at this email address.
+              <div className="flex-1 flex flex-col items-start gap-3 text-sm font-medium text-white/90">
+                <label htmlFor="permission" className="group flex cursor-pointer items-start gap-4 leading-snug">
+                  <input
+                    type="checkbox"
+                    id="permission"
+                    name="permission"
+                    onChange={(event) => event.target.checked && setPermissionError(false)}
+                    className="permission-checkbox peer sr-only"
+                    aria-describedby={permissionError ? 'permission-error' : undefined}
+                    aria-invalid={permissionError}
+                  />
+                  <span className={`permission-control mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border-2 transition-all duration-300 peer-checked:border-black peer-checked:bg-black peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-black ${permissionError ? 'border-black bg-white shadow-[0_0_0_4px_rgba(0,0,0,0.12)]' : 'border-white/70 bg-transparent group-hover:border-white'}`} aria-hidden="true">
+                    <svg className="h-4 w-4 scale-0 text-white transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  <span className="max-w-[280px]">I give permission to contact me at this email address.</span>
                 </label>
+                {permissionError && (
+                  <div id="permission-error" role="alert" className="flex max-w-sm items-start gap-3 rounded-xl border border-white/15 bg-[#111111] px-4 py-3 text-xs font-bold leading-relaxed text-white shadow-[0_12px_30px_rgba(0,0,0,0.3)]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ff2a2a] text-[12px] font-black" aria-hidden="true">!</span>
+                    Please confirm that I may contact you at the email address provided.
+                  </div>
+                )}
               </div>
 
               {/* Right text & button */}
@@ -158,11 +195,21 @@ const Contact = () => {
                 <p className="leading-relaxed max-w-[400px]">
                   Your message will be sent directly to my inbox. I typically respond within 24-48 hours.
                 </p>
-                {import.meta.env.VITE_TURNSTILE_SITE_KEY && (
-                  <div className="cf-turnstile w-full max-w-full" data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY} data-theme="light" data-size="flexible" data-action="portfolio_contact" />
+                {turnstileSiteKey && (
+                  <div className="cf-turnstile w-full max-w-full" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" data-action="portfolio_contact" />
                 )}
-                {status === 'error' && <p role="alert" className="font-bold text-white">{errorMessage}</p>}
-                {status === 'success' && <p role="status" className="font-bold text-white">Thanks! Your message has been delivered.</p>}
+                {status === 'error' && (
+                  <div role="alert" className="flex max-w-lg items-start gap-3 rounded-xl border border-white/15 bg-[#111111] px-4 py-3 text-sm font-bold leading-relaxed text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ff2a2a] text-xs font-black" aria-hidden="true">!</span>
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+                {status === 'success' && (
+                  <div role="status" className="flex max-w-lg items-start gap-3 rounded-xl border border-white/20 bg-black px-4 py-3 text-sm font-bold leading-relaxed text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-black" aria-hidden="true">✓</span>
+                    <span>Thanks! Your message has been delivered.</span>
+                  </div>
+                )}
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6">
                   <p className="max-w-[250px] leading-relaxed">
                     For urgent inquiries, reach me at <a href={`mailto:${personalInfo.emails.primary}`} className="underline hover:text-white transition-colors">{personalInfo.emails.primary}</a>
@@ -178,7 +225,7 @@ const Contact = () => {
                         ? 'bg-green-600 border-green-500 text-white shadow-[0_0_20px_rgba(22,163,74,0.4)]'
                         : status === 'error'
                         ? 'bg-red-800 border-red-700 text-white'
-                        : 'hover:bg-white hover:text-[#ff2a2a]'
+                        : 'hover:bg-[#d9ff43] hover:border-[#d9ff43] hover:text-[#070a0f]'
                     }`}
                   >
                     {status === 'sending' ? (

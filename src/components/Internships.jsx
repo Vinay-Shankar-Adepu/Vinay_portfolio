@@ -18,7 +18,7 @@ const InternshipCard = ({ intern, index }) => (
       <h3 className="text-white text-2xl font-black mb-1 tracking-tight">
         {intern.role}
       </h3>
-      <p className="text-red-200 text-sm font-black tracking-wide mb-6 uppercase">
+      <p className="text-[#d9ff43] text-sm font-black tracking-wide mb-6 uppercase">
         {intern.organization}
       </p>
 
@@ -52,23 +52,17 @@ const InternshipCard = ({ intern, index }) => (
 
 const Internships = () => {
   return (
-    <section id="experience" className="bg-[#ff2a2a] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans">
+    <section id="experience" className="bg-[#536dfe] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans">
       
-      {/* Torn paper divider at top */}
-      <div className="absolute top-0 left-0 w-full pointer-events-none z-10 transform -translate-y-[1px] rotate-180">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-12 md:h-20 fill-[#0a0a0a]">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,119.62,189.5,99.8,242.79,81.82,282.88,63.6,321.39,56.44Z"></path>
-        </svg>
-      </div>
-
       <div className="max-w-6xl mx-auto relative z-20">
         
         {/* Header */}
         <div data-aos="fade-up" className="mb-16 md:mb-20 text-center">
-          <h2 className="text-4xl md:text-5xl font-black text-black mb-4 tracking-tight uppercase">
+          <p className="mb-5 font-mono text-xs font-semibold uppercase tracking-[0.25em] text-[#d9ff43]">05 / Field experience</p>
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-[-0.05em]">
             Work Experience
           </h2>
-          <p className="text-red-100 text-base md:text-lg font-semibold max-w-lg mx-auto">
+          <p className="text-white/70 text-base md:text-lg font-medium max-w-lg mx-auto">
             Practical internships where I applied engineering principles and built real-world assets.
           </p>
         </div>

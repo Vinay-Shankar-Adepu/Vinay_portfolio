@@ -56,10 +56,10 @@ const ProjectGallery = ({ images, title, portraitStage = false }) => {
           <div className={`absolute bottom-3 left-3 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur-md ${portraitStage ? 'text-cyan-400 bg-black/40' : 'border border-white/15 bg-black/65 text-white'}`} aria-live="polite">
             {activeIndex + 1} / {images.length}
           </div>
-          <button type="button" onClick={showPrevious} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-3 text-white backdrop-blur-sm transition-colors hover:bg-[#ff2a2a] focus-visible:outline-2 focus-visible:outline-white" aria-label={`Show previous ${title} screenshot`}>
+          <button type="button" onClick={showPrevious} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-3 text-white backdrop-blur-sm transition-colors hover:bg-[#536dfe] focus-visible:outline-2 focus-visible:outline-white" aria-label={`Show previous ${title} screenshot`}>
             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
           </button>
-          <button type="button" onClick={showNext} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-3 text-white backdrop-blur-sm transition-colors hover:bg-[#ff2a2a] focus-visible:outline-2 focus-visible:outline-white" aria-label={`Show next ${title} screenshot`}>
+          <button type="button" onClick={showNext} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-3 text-white backdrop-blur-sm transition-colors hover:bg-[#536dfe] focus-visible:outline-2 focus-visible:outline-white" aria-label={`Show next ${title} screenshot`}>
             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
           </button>
         </>
@@ -92,7 +92,7 @@ const ProjectCard = ({ project, aosDelay }) => (
     data-aos-delay={aosDelay}
     className={`relative rounded-2xl p-[1px] group transition-all duration-500 ${
       project.isFlagship 
-        ? 'bg-gradient-to-br from-red-500/50 via-white/10 to-red-500/30 hover:from-red-500 hover:via-red-400/30 hover:to-red-500/60' 
+        ? 'bg-gradient-to-br from-[#d9ff43]/60 via-white/10 to-[#536dfe]/50 hover:from-[#d9ff43] hover:via-[#d9ff43]/20 hover:to-[#536dfe]'
         : 'bg-white/10 hover:bg-white/20'
     }`}
   >
@@ -103,7 +103,7 @@ const ProjectCard = ({ project, aosDelay }) => (
     }`}>
       {/* Badge */}
       {project.badge && (
-        <span className="inline-block text-xs font-bold tracking-widest uppercase text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20 mb-4">
+        <span className="inline-block font-mono text-[10px] font-bold tracking-widest uppercase text-[#d9ff43] bg-[#d9ff43]/10 px-3 py-1 rounded-lg border border-[#d9ff43]/20 mb-4">
           {project.badge}
         </span>
       )}
@@ -128,7 +128,7 @@ const ProjectCard = ({ project, aosDelay }) => (
         {project.techTags.map((tag) => (
           <span 
             key={tag}
-            className="px-3 py-1 text-xs font-bold text-white/70 bg-white/5 rounded-full border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 hover:text-red-300 transition-all duration-300 cursor-default"
+            className="px-3 py-1 text-xs font-bold text-white/70 bg-white/5 rounded-lg border border-white/10 hover:bg-[#d9ff43]/15 hover:border-[#d9ff43]/30 hover:text-[#d9ff43] transition-all duration-300 cursor-default"
           >
             {tag}
           </span>
@@ -184,7 +184,7 @@ const ProjectCard = ({ project, aosDelay }) => (
             rel={project.links.demo ? "noopener noreferrer" : undefined}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
               project.links.demo 
-                ? 'bg-[#ff2a2a] text-white hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)]' 
+                ? 'bg-[#536dfe] text-white hover:bg-[#d9ff43] hover:text-[#070a0f] hover:shadow-[0_0_20px_rgba(217,255,67,0.2)]'
                 : 'bg-white/5 text-white/40 border border-white/10 cursor-not-allowed'
             }`}
           >
@@ -199,7 +199,7 @@ const ProjectCard = ({ project, aosDelay }) => (
             href={project.links.frontendDemo}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff2a2a] text-white text-sm font-semibold hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)] transition-all duration-300"
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#536dfe] text-white text-sm font-semibold hover:bg-[#d9ff43] hover:text-[#070a0f] transition-all duration-300"
           >
             <ExternalLinkIcon />
             Frontend Demo
@@ -225,16 +225,16 @@ const ProjectCard = ({ project, aosDelay }) => (
 
 const Projects = () => {
   return (
-    <section id="projects" className="bg-[#0a0a0a] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:80px_80px]">
+    <section id="projects" className="bg-[#0e141d] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans bg-[linear-gradient(to_right,#d9ff430a_1px,transparent_1px),linear-gradient(to_bottom,#d9ff430a_1px,transparent_1px)] bg-[size:64px_64px]">
       <div className="max-w-6xl mx-auto">
         
         {/* Header */}
         <div data-aos="fade-up" className="mb-16 md:mb-20">
-          <div className="inline-block border border-white/20 rounded-full px-5 py-1.5 text-sm text-white/60 font-bold mb-8 shadow-sm bg-white/5 backdrop-blur-sm">
-            Featured Projects
+          <div className="inline-block border border-[#d9ff43]/30 rounded-lg px-4 py-2 font-mono text-xs text-[#d9ff43] font-bold mb-8 bg-[#d9ff43]/5">
+            04 / Selected builds
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight">
-            Work that speaks <br className="hidden md:block" />for itself
+            Built to solve.<br className="hidden md:block" /><span className="text-white/30">Designed to last.</span>
           </h2>
           <p className="text-white/50 text-base md:text-lg max-w-lg font-medium leading-relaxed">
             A selection of projects that showcase my expertise in full-stack development and modern architecture.

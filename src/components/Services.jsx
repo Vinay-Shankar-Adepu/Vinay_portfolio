@@ -32,7 +32,7 @@ const TagCard = ({ number, title, text, className, aosDelay, aosType, pathLength
       data-aos={aosType || "fade-up"} 
       data-aos-delay={aosDelay}
       className={`w-72 sm:w-80 rounded-[2rem] p-2 relative flex flex-col items-center hover:scale-[1.02] transition-all duration-700 z-10 ${className} ${
-        isActive ? 'bg-[#ff2a2a] border-red-400 shadow-[0_20px_50px_rgba(255,42,42,0.4)]' : 'bg-white border border-gray-200 shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)]'
+        isActive ? 'bg-[#536dfe] border-[#070a0f] shadow-[10px_10px_0_#070a0f]' : 'bg-[#d9ff43] border-2 border-[#070a0f] shadow-[6px_6px_0_#070a0f] hover:shadow-[10px_10px_0_#070a0f]'
       }`}
     >
       {/* The hole punch */}
@@ -42,10 +42,10 @@ const TagCard = ({ number, title, text, className, aosDelay, aosType, pathLength
       
       {/* Inner container */}
       <div className={`w-full h-full rounded-[1.5rem] mt-8 p-8 flex flex-col min-h-[220px] transition-colors duration-700 ${
-        isActive ? 'bg-red-700/50' : 'bg-[#f4f4f4]'
+        isActive ? 'bg-[#3449cf]' : 'bg-[#f3f0e8]'
       }`}>
         <span className={`text-xl font-bold mb-2 font-serif italic transition-colors duration-700 ${
-          isActive ? 'text-red-200' : 'text-gray-400'
+          isActive ? 'text-[#d9ff43]' : 'text-gray-500'
         }`}>{number}</span>
         
         <h3 className={`text-2xl font-black mb-3 tracking-tight transition-colors duration-700 ${
@@ -53,7 +53,7 @@ const TagCard = ({ number, title, text, className, aosDelay, aosType, pathLength
         }`}>{title}</h3>
         
         <p className={`text-sm leading-relaxed font-medium transition-colors duration-700 ${
-          isActive ? 'text-red-100' : 'text-gray-500'
+          isActive ? 'text-white/80' : 'text-gray-600'
         }`}>
           {text}
         </p>
@@ -76,7 +76,7 @@ const Services = () => {
     <section 
       id="process"
       ref={containerRef}
-      className="bg-white pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:80px_80px]"
+      className="bg-[#f3f0e8] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans bg-[linear-gradient(to_right,#070a0f0c_1px,transparent_1px),linear-gradient(to_bottom,#070a0f0c_1px,transparent_1px)] bg-[size:64px_64px]"
     >
       <div className="max-w-6xl mx-auto relative md:h-[1350px]">
         

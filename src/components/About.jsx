@@ -1,40 +1,34 @@
 import stackImage from '../assets/about/image.png';
-import { aboutContent } from '../data/portfolioData';
+import { aboutContent, personalInfo } from '../data/portfolioData';
 
 const About = () => (
-  <section id="about" className="bg-[#ff2a2a] pt-20 pb-40 px-6 md:px-12 w-full relative overflow-hidden font-sans">
-    <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-16 items-start">
-      <div className="flex flex-col items-center w-full md:w-[350px] shrink-0 mt-12 md:mt-0">
-        <div data-aos="drop-bounce" className="relative flex justify-center w-full">
-          <div className="absolute -top-32 left-1/2 w-3 h-40 bg-black -translate-x-1/2 shadow-inner z-0" />
-          <div className="absolute -top-6 left-1/2 w-6 h-12 bg-gray-300 rounded border border-gray-400 -translate-x-1/2 z-10 shadow-[0_2px_10px_rgba(0,0,0,0.3)]" />
-          <div className="bg-gray-900 w-full max-w-[280px] rounded-2xl p-3 shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative z-20 -rotate-3 hover:rotate-0 transition-transform duration-500">
-            <div className="absolute -top-3 left-1/2 w-16 h-6 bg-gray-900 rounded-t-xl -translate-x-1/2 flex justify-center items-center">
-              <div className="w-8 h-2 bg-black/30 rounded-full shadow-inner" />
-            </div>
-            <div className="w-full aspect-[3/4] overflow-hidden rounded-xl bg-gray-800 border-2 border-transparent">
-              <img src={stackImage} alt="Vinay Shankar Adepu - Full-Stack and Flutter Developer" className="w-full h-full object-cover object-top" />
-            </div>
-          </div>
+  <section id="about" className="relative w-full overflow-hidden bg-[#f3f0e8] px-6 py-24 text-[#070a0f] md:px-12 md:py-32">
+    <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,#070a0f12_1px,transparent_1px),linear-gradient(to_bottom,#070a0f12_1px,transparent_1px)] [background-size:48px_48px]" />
+    <div className="relative mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
+      <div data-aos="fade-up" className="relative mx-auto w-full max-w-md lg:mx-0">
+        <div className="absolute -left-4 -top-4 h-full w-full rounded-[2rem] border-2 border-[#070a0f]" />
+        <div className="absolute -right-5 -bottom-5 h-24 w-24 rounded-full bg-[#d9ff43]" />
+        <div className="relative overflow-hidden rounded-[2rem] border-2 border-[#070a0f] bg-[#536dfe] p-3 shadow-[12px_12px_0_#070a0f]">
+          <img src={stackImage} alt={`${personalInfo.name} — Full-Stack and Flutter Developer`} className="aspect-[4/5] w-full rounded-[1.4rem] object-cover object-top grayscale-[15%]" />
+        </div>
+        <span className="absolute -right-3 top-8 rotate-3 rounded-full border-2 border-[#070a0f] bg-[#d9ff43] px-4 py-2 font-mono text-[10px] font-semibold uppercase tracking-widest">Based in Hyderabad</span>
+      </div>
+
+      <div data-aos="fade-left" data-aos-delay="150" className="relative">
+        <div className="mb-8 flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.25em]">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#536dfe]" />
+          01 / About
+        </div>
+        <h2 className="mb-8 max-w-2xl text-5xl font-bold leading-[0.92] tracking-[-0.06em] sm:text-6xl lg:text-7xl">
+          I build products that work <span className="text-[#536dfe]">beyond the demo.</span>
+        </h2>
+        <div className="max-w-2xl border-l-2 border-[#070a0f] pl-6 text-lg font-medium leading-relaxed text-[#29303b]" dangerouslySetInnerHTML={{ __html: aboutContent.bio }} />
+        <div className="mt-10 grid grid-cols-3 border-y-2 border-[#070a0f] py-5 font-mono text-[10px] uppercase tracking-wider sm:text-xs">
+          <div><strong className="block text-xl font-semibold sm:text-2xl">Web</strong>React + APIs</div>
+          <div className="border-x-2 border-[#070a0f] px-3 sm:px-4"><strong className="block text-xl font-semibold sm:text-2xl">Mobile</strong>Flutter</div>
+          <div className="pl-3 sm:pl-4"><strong className="block text-xl font-semibold sm:text-2xl">Data</strong>Realtime</div>
         </div>
       </div>
-
-      <div data-aos="fade-left" data-aos-delay="200" className="flex-1 text-white mt-8 md:mt-0 relative z-20">
-        <h2 className="text-4xl md:text-5xl font-black text-black mb-4">{aboutContent.heading}</h2>
-        <p className="text-lg font-bold leading-relaxed max-w-3xl text-red-50" dangerouslySetInnerHTML={{ __html: aboutContent.bio }} />
-      </div>
-    </div>
-
-    <div className="absolute bottom-0 left-0 w-full pointer-events-none z-30 translate-y-1">
-      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-12 md:h-20 fill-white">
-        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,119.62,189.5,99.8,242.79,81.82,282.88,63.6,321.39,56.44Z" />
-      </svg>
-    </div>
-    <div className="absolute top-10 right-10 md:right-20 text-black opacity-30 animate-pulse">
-      <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 23l-2.5-8.5L1 12l8.5-2.5z" /></svg>
-    </div>
-    <div className="absolute bottom-32 left-4 md:left-20 text-black opacity-30 animate-pulse" style={{ animationDelay: '1s' }}>
-      <svg className="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 23l-2.5-8.5L1 12l8.5-2.5z" /></svg>
     </div>
   </section>
 );
